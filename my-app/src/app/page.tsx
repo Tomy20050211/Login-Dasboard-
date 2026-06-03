@@ -1,5 +1,8 @@
-import { LoginForm } from "../components/Login";
+import { LoginForm } from "../pages/login/Login";
+import { RegisterForm } from "../pages/register/RegisterFrom";
 
 export default function Page() {
-  return <LoginForm />;
+  const hasAccount = false;
+
+  return <LoginForm /> 
 }
