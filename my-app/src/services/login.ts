@@ -1,4 +1,4 @@
-import { LoginProps } from "../hooks/LoginProps";
+import { LoginProps } from "../types/interfaces/LoginProps";
 
 
 export const login = async ({email, password}: LoginProps) => {
