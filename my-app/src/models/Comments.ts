@@ -1,6 +1,6 @@
+import mongoose, {Schema} from "mongoose"
 
-
-export const CommentsSchema = ({
+export const CommentsSchema = new Schema({
     text: {
         type: String,
         required: true
@@ -11,3 +11,5 @@ export const CommentsSchema = ({
         default: Date.now
     }
 })
+
+export  default mongoose.models.Comment || mongoose.model("Comment", CommentsSchema)

@@ -1,7 +1,10 @@
-// hooks/useRegister.ts
-
 import { useState } from "react";
 import { register } from "../services/register";
+
+type RegisteredUser = {
+  _id: string;
+  email: string;
+};
 
 export const useRegister = () => {
   const [name, setName] = useState("");
@@ -11,23 +14,16 @@ export const useRegister = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleRegister = async () => {
+  const handleRegister = async (): Promise<RegisteredUser | null> => {
     try {
       setLoading(true);
       setError("");
 
-      const data = await register({
-          name,
-        email,
-        password
-      }
-      );
-
-      console.log(data);
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      }
+      const user = await register({ name, email, password });
+      return user;
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+      return null;
     } finally {
       setLoading(false);
     }
@@ -45,3 +41,4 @@ export const useRegister = () => {
     handleRegister,
   };
 };
+

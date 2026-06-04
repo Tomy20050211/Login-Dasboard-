@@ -1,8 +1,8 @@
-import { LoginForm } from "../pages/login/Login";
-import { RegisterForm } from "../pages/register/RegisterFrom";
+import { RegisterForm } from "./pages/register/RegisterForm"
 
 export default function Page() {
-  const hasAccount = false;
 
-  return <LoginForm /> 
+
+  return <RegisterForm /> 
+
 }

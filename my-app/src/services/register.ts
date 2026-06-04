@@ -1,31 +1,38 @@
-import { RegisterProps } from "../types/interfaces/RegisterProps";
+import type { RegisterProps } from "../types/interfaces/RegisterProps";
 
-
-export const register = async ({name, email, password}: RegisterProps) =>{
-      try {
-      const response = await fetch("/api/routeRegister", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-
-      if (!response.ok) {
-        alert(data.message);
-        return;
-      }
-
-      alert("Created user");
-    } catch (error) {
-      console.error(error);
-    }
+type RegisterApiResponse = {
+  message: string;
+  user: {
+    _id: string;
+    email: string;
   };
+};
+
+export const register = async ({
+  name,
+  email,
+  password,
+}: RegisterProps): Promise<RegisterApiResponse["user"]> => {
+  const response = await fetch("/api/routeRegister", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, password }),
+  });
+
+  const data = (await response.json()) as Partial<
+    RegisterApiResponse
+  > & { message?: string };
+
+  if (!response.ok) {
+    throw new Error(data.message ?? "server error");
+  }
+
+  if (!data.user) {
+    throw new Error(data.message ?? "server error");
+  }
+
+  return data.user;
+};
+
